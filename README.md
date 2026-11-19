@@ -11,6 +11,23 @@ Built for Alibaba Cloud x Developer Kaki QodeFest, 19 Nov 2026 — Digital Inclu
 lead time, effective cost and a safety stop, side by side. A chat thread flattens that; a
 filterable table makes it comparable at a glance.
 
+## App snapshots
+
+### Guided intake
+
+Car selection, a step-by-step repair assistant and a preview of the report.
+
+![Bengkel Baik desktop app with car selection, repair assistant and report preview](demo/ui-intake.png)
+
+### Repair report
+
+After the safety check: likely faults, required fixes and ranked workshop estimates.
+
+![Completed repair report alongside the assistant, with repair guidance and workshop estimates](demo/ui-report.png)
+
+Captured from the running app using the manual path: Perodua Myvi · front bumper · moderate damage.
+Workshop prices are seeded estimates, not market prices.
+
 ## Submission deck
 
 The 10-slide submission deck is at
