@@ -21,7 +21,8 @@ information — they lack a **normalisation layer**.
 ## 2. What we are building
 
 1. User selects **make + model** (e.g. Perodua Myvi) and uploads a **photo of visible damage**.
-2. Qwen-VL classifies **damage type** (6 visible classes) + severity, with confidence.
+2. Qwen-VL classifies **damage type** (6 visible classes) + severity, with confidence,
+   and may return a **`suspectedMake` hint** that prefills the make dropdown.
 3. The app filters workshops by **(a) make coverage** and **(b) capability**, then renders
    **ranked, normalised quotes**: price band, part grade, labour hours, warranty, lead time.
 4. Ranking uses **effective cost** (mid price + warranty risk premium), not sticker price,
@@ -30,9 +31,29 @@ information — they lack a **normalisation layer**.
 6. Safety rule: airbag / fluid leak / suspected frame damage → *don't drive, tow* —
    no prices shown.
 
-**Not building:** bookings, payments, live workshop APIs, maps, chat history, accounts,
-video analysis, hidden-fault diagnosis (noise, brakes, engine). A camera cannot see
-those; claiming otherwise is the one thing that loses the room.
+### Channel frame: WhatsApp-first, web app first
+
+The product vision is a **WhatsApp-first assistant**: the driver sends a photo in
+WhatsApp, gets the damage + make hint back, confirms, and receives the ranked workshop
+list. WhatsApp is the **distribution channel**; the normalisation pipeline is the product.
+
+**What we build today:** the web app is the reference client and the demo. It calls the
+same `POST /api/assess` endpoint a WhatsApp adapter would call. No product logic lives in
+the channel.
+
+**Why we do not build the WhatsApp integration now:** it needs a Meta/Twilio Business
+account, an approved sender, a public webhook, template-message handling and the 24-hour
+session window. That is a second deploy and an approval dependency we cannot clear before
+14:40. It also adds failure modes that do not test the core claim. On stage: *"The web app
+is the reference client; WhatsApp is the deployment channel."*
+
+**Roadmap:** WhatsApp Cloud API (or Twilio) webhook → download the photo → same
+`/api/assess` pipeline → reply with the ranked table and shortlist. No new domain logic.
+
+**Not building today:** bookings, payments, live workshop APIs, maps, chat history,
+accounts, video analysis, a live WhatsApp/Telegram integration, hidden-fault diagnosis
+(noise, brakes, engine). A camera cannot see those; claiming otherwise is the one thing
+that loses the room.
 
 ## 3. Data model (seed assumption)
 
@@ -64,12 +85,13 @@ Conventions: one directory per stream, one commit per ticket, ID prefix in the m
 
 ### T0 — Contract freeze (blocking, 5–10 min, 1 person)
 `lib/types.ts` exactly as in `AGENT.md` §5. All stream owners acknowledge in chat.
-Note the two additions versus the first draft: `coverage: MakeScope[]` and `damageTypes`
-on the workshop, plus user-selected `make`/`model` in the request.
+**Contract v2 (A5):** `distanceKm`, `phone`, `insuranceClaimable` and workshop
+`provenance` on every workshop; `suspectedMake` on the assessment as a hint only.
+Only the user-confirmed `make` filters workshops.
 
 ### Stream A — Data & logic (1 person, no deps)
-- **A1** `data/workshops.json` + `data/quotes.json` — the 6 shops above, 36 quote rows,
-  provenance on every record.
+- **A1** `data/workshops.json` + `data/quotes.json` — the 6 shops above, 32 quote rows
+  (via `scripts/seed-quotes.mjs`), provenance on every record.
 - **A2** `lib/match.ts` — coverage + capability filter.
 - **A3** `lib/normalize.ts` — mid, risk premium, effective cost, outlier, verdict.
 - **A4** unit test: ws_A `best_value`, ws_B `cheapest`; ws_C excluded for `perodua`.
@@ -88,7 +110,8 @@ on the workshop, plus user-selected `make`/`model` in the request.
 - **C1** `prompts/assess.ts` — 6-class taxonomy, JSON only, top-2 with confidence,
   non-vehicle → empty, safety flags → `safetyStop`, never a price, never "safe".
 - **C2** `app/api/assess/route.ts` — Qwen-VL → zod → one retry → graceful empty result.
-- **C3** detection display: labels + confidence beside the photo, chips auto-select.
+- **C3** detection display: labels + confidence beside the photo, chips auto-select,
+  `suspectedMake` prefills the make dropdown behind a visible "use this" confirm.
 
 ### Stream D — Demo ops, docs, evidence (1 person, non-blocking)
 - **D1** `?offline=1` serving `data/demo-cache.json`; hash-cached sample photos.
@@ -145,7 +168,8 @@ Spending 45 minutes building an image pipeline is the classic hackathon death.
 | Wifi dies on stage | `?offline=1` + local run + recorded video |
 | "Where do prices come from?" | "Seeded survey of 6 workshops, 19 Nov, labelled in the UI." One sentence |
 | "Is this legal / medical advice?" | "We show estimates and what to ask. Inspection confirms." |
-| Judges ask about brand detection | "User selects the make. The model classifies damage only — that's the reliable half." |
+| Judges ask about brand detection | "The model suggests a make and prefills the dropdown. The user confirms — a wrong auto-filter would hide the right shop. Classification is the reliable half." |
+| "Is this a WhatsApp bot?" / "Why not WhatsApp?" | "WhatsApp is the distribution channel; today's build is the reference web client calling the same endpoint. The Business API webhook is a second deploy we deliberately cut." |
 | Someone wants to add a feature at 13:55 | No |
 
 ## 7. Demo script (90 seconds)
@@ -162,13 +186,16 @@ Spending 45 minutes building an image pipeline is the classic hackathon death.
 6. Close: *"Every scan becomes a structured record — damage type, market, part grade,
    price. That's the dataset nobody in Malaysia has. The app is free; the dataset is
    the business."*
+7. *"This is the reference web client. The same endpoint drops into WhatsApp — that's
+   the distribution."*
 
 ## 8. Submission checklist
 
 - [ ] Repo with AGENT.md, README, ARCHITECTURE
-- [ ] `npm run build` + `tsc --noEmit` green
+- [ ] `npm run build` + `npm run typecheck` green
 - [ ] 90s video (backup if live demo fails)
 - [ ] 6 sample photos + manifest in `/public/samples`
 - [ ] Qoder evidence: planning screenshots, commit log, one diff
 - [ ] Slides: problem → who suffers → demo → normalisation insight → dataset → roadmap
 - [ ] One sentence on seeded data, said out loud
+- [ ] One sentence on WhatsApp: vision is the channel; the web app is the reference client

@@ -7,13 +7,17 @@ Built for Alibaba Cloud x Developer Kaki QodeFest, 19 Nov 2026 — Digital Inclu
 > **RM800 vs RM780 is not a choice.** Those two quotes price different things: part grade,
 > labour, warranty and lead time. We normalise them, so a comparison becomes possible.
 
+**Channel vision:** WhatsApp-first. **This build:** the web app — the reference client
+for the same `POST /api/assess` endpoint a WhatsApp adapter would call. No product logic
+lives in the channel, so the adapter is a second deploy, not a rewrite.
+
 ## Run it
 
 ```bash
 npm install
 npm run dev          # http://localhost:3000
 npm test             # ranking unit tests
-npx tsc --noEmit
+npm run typecheck
 npm run build
 ```
 
@@ -34,7 +38,10 @@ returns a graceful empty result instead of throwing.
    (RM780 sticker, aftermarket, no warranty) because effective cost includes warranty risk.
 3. The Honda/Toyota-only shop is absent — it doesn't serve a Perodua.
 4. Premium Auto KL is flagged as an outlier, not silently ranked first.
-5. Tick the red safety box (or let the model set it) → **Don't drive — tow it**, no prices.
+5. Upload a photo → the damage chip auto-selects, label + confidence appear, and a
+   make hint offers **"Detected: Perodua · use this"** — the user confirms; only the
+   confirmed make filters shops.
+6. Tick the red safety box (or let the model set it) → **Don't drive — tow it**, no prices.
 
 Try `/?offline=1` for the conference-wifi-proof path: local JSON only, cached assessment.
 
@@ -50,11 +57,12 @@ in this README only after we run the six labelled samples with a live API key. D
 ## What is deliberately not built
 
 Video input, booking, payments, live workshop APIs, maps, accounts, chat history, admin UI,
-price scraping. The camera cannot see brakes, air-con or engine faults, so those are not
-damage classes in this build.
+price scraping, and a live WhatsApp/Telegram integration. The camera cannot see brakes,
+air-con or engine faults, so those are not damage classes in this build.
 
-Car identity (make/model) is **user-selected**. Qwen classifies damage only — that is the
-reliable half.
+**Brand is a hint, the user is the source of truth.** Qwen may return `suspectedMake`,
+which prefills the make dropdown behind a visible "use this" confirm. Only the confirmed
+selection feeds `match.ts` — a wrong auto-filter would hide the best-value shop.
 
 ## Where things live
 
@@ -65,8 +73,9 @@ reliable half.
 - `lib/normalize.ts` — mid price, warranty risk premium, effective cost, outlier, verdict
 - `data/` — seeded workshops, quotes, offline cache
 - `docs/ARCHITECTURE.md` — pipeline and trade-offs
+- `.qoder/skills/create-pr/` — project skill: checks, summary, confirm, then `gh pr create`
 
 ## Evidence trail
 
-Commit history is one commit per ticket (`T0`, `A1`–`A4`, `B1`, `C1`–`C2`, `D1`), built with
-Qoder from the frozen contract in `AGENT.md`.
+Commit history is one commit per ticket (`T0`, `A1`–`A5`, `B1`, `C1`–`C2`, `D1`–`D2`),
+built with Qoder from the frozen contract in `AGENT.md`.

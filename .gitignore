@@ -5,7 +5,7 @@ out
 !.env.local.example
 *.tsbuildinfo
 .DS_Store
-perodua-proton-car-data.zip
+*.zip
 seed/car-data/manuals
 brainstorming/ideas/
 brainstorming/hackathon-context.md
