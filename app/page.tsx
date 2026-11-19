@@ -130,14 +130,14 @@ function Report({
 }: {
   make: Make;
   model: string;
-  damage: DamageType;
+  damage: DamageType | null;
   severity: Severity;
   safetyStop: boolean;
   assessment: Assessment | null;
   rows: RankedQuote[];
 }) {
   const shops = useMemo(() => byWorkshop(workshops), []);
-  const guide = DAMAGE_FIXES[damage];
+  const guide = damage ? DAMAGE_FIXES[damage] : null;
   const best = rows.find((row) => row.verdict === 'best_value');
   const priced = rows.filter((row) => !row.isOutlier);
   const low = priced.length ? Math.min(...priced.map((row) => row.priceBand[0])) : 0;
@@ -161,7 +161,7 @@ function Report({
           {cap(make)} {model}
         </h2>
         <p className="text-sm text-ink/60">
-          {DAMAGE_LABEL[damage]} · {severity} · {safetyStop ? 'safety stop' : `${rows.length} shops matched`}
+          {damage ? DAMAGE_LABEL[damage] : 'Safety stop'} · {severity} · {safetyStop ? 'safety stop' : `${rows.length} shops matched`}
         </p>
         {confidence && (
           <p className="mt-2 inline-flex rounded-full bg-brand/10 px-2.5 py-1 text-xs font-bold text-brand">
@@ -184,7 +184,7 @@ function Report({
       <div className="rounded-3xl border border-ink/10 bg-white p-5 shadow-sm">
         <SectionTitle n="1" title="Possible faulty" />
         <ul className="mt-2 space-y-1.5 text-sm text-ink/75">
-          {guide.possible.map((item) => (
+          {(guide?.possible ?? ['Not assessed from this photo — the safety stop takes priority.']).map((item) => (
             <li key={item} className="flex gap-2">
               <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
               {item}
@@ -197,14 +197,16 @@ function Report({
       <div className="rounded-3xl border border-ink/10 bg-white p-5 shadow-sm">
         <SectionTitle n="2" title="Required fixes" />
         <ul className="mt-2 space-y-1.5 text-sm text-ink/75">
-          {guide.fixes.map((item) => (
+          {(guide?.fixes ?? ['Physical inspection first; repairs are decided after the tow.']).map((item) => (
             <li key={item} className="flex gap-2">
               <span className="font-bold text-brand">→</span>
               {item}
             </li>
           ))}
         </ul>
-        <p className="mt-3 rounded-xl bg-paper px-3 py-2 text-xs font-semibold text-ink/65">Ask the shop: {guide.ask}</p>
+        {guide && (
+          <p className="mt-3 rounded-xl bg-paper px-3 py-2 text-xs font-semibold text-ink/65">Ask the shop: {guide.ask}</p>
+        )}
       </div>
 
       {!safetyStop && (
@@ -439,7 +441,7 @@ export default function Home() {
         ? 'That is a safety stop. I will not show prices — the report will say tow and inspect.'
         : 'Thanks — no safety stop. I have enough to build the report.',
     );
-    setStage('ready');
+    generateReport();
   }
 
   function generateReport() {
@@ -493,13 +495,24 @@ export default function Home() {
       }
       setAssessment(result);
       const top = result.damageTypes[0];
-      if (top) {
+      setSeverity(result.severity);
+      if (result.safetyStop) {
+        setSafetyStop(true);
+        setDamage(top ? top.type : null);
+        push(
+          'assistant',
+          top
+            ? `I can see ${DAMAGE_LABEL[top.type].toLowerCase()} damage (${Math.round(top.confidence * 100)}%), and the photo suggests airbag, fluid or frame involvement. That is a safety stop — no prices, tow and inspect.`
+            : 'The photo shows a deployed airbag or another safety issue. That is a safety stop — no prices, tow and inspect.',
+        );
+        generateReport();
+      } else if (top) {
         setDamage(top.type);
         push(
           'assistant',
-          `I can see ${DAMAGE_LABEL[top.type].toLowerCase()} damage (${Math.round(top.confidence * 100)}%). Is that right? How bad is it — minor, moderate, or severe?`,
+          `I can see ${DAMAGE_LABEL[top.type].toLowerCase()} damage (${Math.round(top.confidence * 100)}%), severity looks ${result.severity}. One safety check: is an airbag deployed, is fluid leaking, or could the frame be bent?`,
         );
-        setStage('detail');
+        setStage('safety');
       } else {
         push('assistant', 'I could not read that photo clearly. Tap the damaged part below — it works without AI.');
       }
@@ -767,7 +780,7 @@ export default function Home() {
         </section>
 
         <aside className="min-w-0">
-          {stage === 'report' && damage ? (
+          {stage === 'report' ? (
             <Report
               make={make}
               model={model}
