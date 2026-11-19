@@ -148,35 +148,37 @@ function Report({
 }: {
   make: Make;
   model: string;
-  damage: DamageType;
+  damage: DamageType | null;
   severity: Severity;
   safetyStop: boolean;
   assessment: Assessment | null;
   rows: RankedQuote[];
 }) {
   const shops = useMemo(() => byWorkshop(workshops), []);
-  const guide = DAMAGE_FIXES[damage];
+  const guide = damage ? DAMAGE_FIXES[damage] : null;
   const best = rows.find((row) => row.verdict === 'best_value');
   const priced = rows.filter((row) => !row.isOutlier);
   const low = priced.length ? Math.min(...priced.map((row) => row.priceBand[0])) : 0;
   const high = priced.length ? Math.max(...priced.map((row) => row.priceBand[1])) : 0;
   const confidence = assessment?.damageTypes[0];
   const notes = assessment && assessment.damageTypes.length > 0 ? assessment.notes : '';
-  const reportHref = buildReportHref({
-    make,
-    model,
-    damage,
-    severity,
-    safetyStop,
-    found: assessment?.damageTypes ?? [],
-  });
+  const reportHref = damage
+    ? buildReportHref({
+        make,
+        model,
+        damage,
+        severity,
+        safetyStop,
+        found: assessment?.damageTypes ?? [],
+      })
+    : null;
 
   return (
     <div id="report" className="space-y-4">
       <div className="rounded-2xl bg-ink p-6 text-white">
         <div className="flex items-center justify-between"><p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/60">Your repair report</p><Icon name="report" className="h-5 w-5 text-[#FFAA78]" /></div>
         <h2 className="mt-3 text-2xl font-bold tracking-tight">{cap(make)} {model}</h2>
-        <p className="mt-1 text-xs text-white/70">{DAMAGE_LABEL[damage]} · {severity} · {safetyStop ? 'safety stop' : `${rows.length} shops matched`}</p>
+        <p className="mt-1 text-xs text-white/70">{damage ? DAMAGE_LABEL[damage] : 'Safety stop'} · {severity} · {safetyStop ? 'safety stop' : `${rows.length} shops matched`}</p>
         {confidence && <p className="mt-3 inline-flex rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-medium text-[#FFBD96]">AI read: {DAMAGE_LABEL[confidence.type]} · {Math.round(confidence.confidence * 100)}%</p>}
       </div>
 
@@ -194,7 +196,7 @@ function Report({
       <div className="rounded-2xl border border-ink/[0.08] bg-white p-5">
         <SectionTitle n="1" title="Likely faults" />
         <ul className="mt-2 space-y-1.5 text-sm text-ink/75">
-          {guide.possible.map((item) => (
+          {(guide?.possible ?? ['Not assessed from this photo — the safety stop takes priority.']).map((item) => (
             <li key={item} className="flex gap-2">
               <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
               {item}
@@ -207,14 +209,16 @@ function Report({
       <div className="rounded-2xl border border-ink/[0.08] bg-white p-5">
         <SectionTitle n="2" title="Required fixes" />
         <ul className="mt-2 space-y-1.5 text-sm text-ink/75">
-          {guide.fixes.map((item) => (
+          {(guide?.fixes ?? ['Physical inspection first; repairs are decided after the tow.']).map((item) => (
             <li key={item} className="flex gap-2">
               <span className="font-bold text-brand">→</span>
               {item}
             </li>
           ))}
         </ul>
-        <p className="mt-3 rounded-xl bg-paper px-3 py-2 text-xs font-semibold text-ink/65">Ask the shop: {guide.ask}</p>
+        {guide && (
+          <p className="mt-3 rounded-xl bg-paper px-3 py-2 text-xs font-semibold text-ink/65">Ask the shop: {guide.ask}</p>
+        )}
       </div>
 
       {!safetyStop && (
@@ -345,20 +349,22 @@ function Report({
         confirms the repair.
       </p>
 
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-3xl border border-brand/25 bg-brand/5 p-5">
-        <div>
-          <p className="text-sm font-bold">Send this report to the chat</p>
-          <p className="mt-1 text-xs leading-snug text-ink/60">
-            Shareable link: assessment, vehicle causes, quotes, phone numbers and directions.
-          </p>
+      {reportHref && (
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-3xl border border-brand/25 bg-brand/5 p-5">
+          <div>
+            <p className="text-sm font-bold">Send this report to the chat</p>
+            <p className="mt-1 text-xs leading-snug text-ink/60">
+              Shareable link: assessment, vehicle causes, quotes, phone numbers and directions.
+            </p>
+          </div>
+          <a
+            href={reportHref}
+            className="rounded-xl bg-brand px-4 py-2 text-xs font-bold text-white transition hover:opacity-90"
+          >
+            Open shareable report →
+          </a>
         </div>
-        <a
-          href={reportHref}
-          className="rounded-xl bg-brand px-4 py-2 text-xs font-bold text-white transition hover:opacity-90"
-        >
-          Open shareable report →
-        </a>
-      </div>
+      )}
     </div>
   );
 }
@@ -457,7 +463,7 @@ export default function Home() {
         ? 'That is a safety stop. I will not show prices — the report will say tow and inspect.'
         : 'Thanks — no safety stop. I have enough to build the report.',
     );
-    setStage('ready');
+    generateReport();
   }
 
   function generateReport() {
@@ -511,13 +517,24 @@ export default function Home() {
       }
       setAssessment(result);
       const top = result.damageTypes[0];
-      if (top) {
+      setSeverity(result.severity);
+      if (result.safetyStop) {
+        setSafetyStop(true);
+        setDamage(top ? top.type : null);
+        push(
+          'assistant',
+          top
+            ? `I can see ${DAMAGE_LABEL[top.type].toLowerCase()} damage (${Math.round(top.confidence * 100)}%), and the photo suggests airbag, fluid or frame involvement. That is a safety stop — no prices, tow and inspect.`
+            : 'The photo shows a deployed airbag or another safety issue. That is a safety stop — no prices, tow and inspect.',
+        );
+        generateReport();
+      } else if (top) {
         setDamage(top.type);
         push(
           'assistant',
-          `I can see ${DAMAGE_LABEL[top.type].toLowerCase()} damage (${Math.round(top.confidence * 100)}%). Is that right? How bad is it — minor, moderate, or severe?`,
+          `I can see ${DAMAGE_LABEL[top.type].toLowerCase()} damage (${Math.round(top.confidence * 100)}%), severity looks ${result.severity}. One safety check: is an airbag deployed, is fluid leaking, or could the frame be bent?`,
         );
-        setStage('detail');
+        setStage('safety');
       } else {
         push('assistant', 'I could not read that photo clearly. Tap the damaged part below — it works without AI.');
       }
@@ -695,7 +712,7 @@ export default function Home() {
 
             <div className="border-t border-ink/[0.07] px-5 py-4 sm:px-6">
               <div className="flex items-center gap-2 rounded-xl border border-ink/10 bg-white p-1.5 focus-within:border-brand/50 focus-within:ring-2 focus-within:ring-brand/10">
-                <input aria-label="Message the assistant" value={draft} onChange={(event) => setDraft(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter' && !event.nativeEvent.isComposing) void sendText(); }} placeholder="Or tell us what happened…" className="min-w-0 flex-1 border-0 bg-transparent px-2 py-2 text-base outline-none sm:text-xs" />
+                <input aria-label="Message the assistant" value={draft} onChange={(event) => setDraft(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter' && !event.nativeEvent.isComposing) void sendText(); }} placeholder="Type in English, BM, 中文, தமிழ் or Manglish" className="min-w-0 flex-1 border-0 bg-transparent px-2 py-2 text-base outline-none sm:text-xs" />
                 <button type="button" aria-label="Send message" onClick={() => void sendText()} disabled={loading || draft.trim().length === 0} className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-ink text-white transition hover:bg-ink/80 disabled:cursor-not-allowed disabled:bg-ink/15 disabled:text-ink/40"><Icon name="arrow" className="h-4 w-4" /></button>
               </div>
               <p className="mt-2 text-center text-[10px] text-ink/50">{offline ? 'Photo assessment uses cached demo results.' : 'Powered by Qwen · You can also use the buttons above.'}</p>
@@ -703,7 +720,7 @@ export default function Home() {
           </section>
 
           <aside aria-label="Your repair report" className="min-w-0">
-            {stage === 'report' && damage ? <Report make={make} model={model} damage={damage} severity={severity} safetyStop={safetyStop} assessment={assessment} rows={rows} /> : (
+            {stage === 'report' ? <Report make={make} model={model} damage={damage} severity={severity} safetyStop={safetyStop} assessment={assessment} rows={rows} /> : (
               <div className="overflow-hidden rounded-2xl border border-ink/[0.08] bg-white">
                 <div className="relative overflow-hidden border-b border-ink/[0.06] bg-[#EEEEE7] px-6 pb-3 pt-5">
                   <div className="flex items-center justify-between"><p className="text-[10px] font-bold uppercase tracking-[0.16em] text-ink/55">Your car, your next step</p><span className="rounded-full border border-ink/10 bg-white/60 px-2.5 py-1 text-[10px] font-medium text-ink/60">{cap(make)} {model}</span></div>
