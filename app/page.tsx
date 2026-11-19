@@ -72,6 +72,24 @@ const cap = (value: string) => value[0].toUpperCase() + value.slice(1);
 type Stage = 'car' | 'photo' | 'detail' | 'safety' | 'ready' | 'report';
 type Msg = { id: number; role: 'assistant' | 'user'; text: string; image?: string };
 
+type IconName = 'car' | 'arrow' | 'shield' | 'photo' | 'report' | 'check' | 'pin' | 'wrench' | 'spark' | 'table';
+
+function Icon({ name, className = 'h-5 w-5' }: { name: IconName; className?: string }) {
+  const paths: Record<IconName, React.ReactNode> = {
+    car: <><path d="m5 9 2-5h10l2 5M3 10l2-1h14l2 1v7H3zM5 17v3m14-3v3M7 13h1m8 0h1" /><path d="M8 4h8" /></>,
+    arrow: <path d="M5 12h14m-6-6 6 6-6 6" />,
+    shield: <><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6z" /><path d="m8 12 3 3 5-6" /></>,
+    photo: <><path d="M4 7h4l2-3h4l2 3h4v13H4z" /><circle cx="12" cy="13" r="3" /></>,
+    report: <><path d="M5 3h10l4 4v14H5zM14 3v5h5M9 12h6m-6 4h6" /></>,
+    check: <path d="m5 12 4 4L19 6" />,
+    pin: <><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z" /><circle cx="12" cy="10" r="2" /></>,
+    wrench: <path d="M14 5a5 5 0 0 0-6 6l-5 5a2 2 0 0 0 3 3l5-5a5 5 0 0 0 7-6l-4 3-3-3 3-3Z" />,
+    spark: <><path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5zM20 3v4m-2-2h4" /></>,
+    table: <><rect x="3" y="4" width="18" height="16" rx="2" /><path d="M3 10h18M9 10v10" /></>,
+  };
+  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className={className}>{paths[name]}</svg>;
+}
+
 function VerdictBadge({ verdict }: { verdict: Verdict }) {
   const badge = BADGE[verdict];
   return (
@@ -155,19 +173,11 @@ function Report({
 
   return (
     <div id="report" className="space-y-4">
-      <div className="rounded-3xl border border-ink/10 bg-white p-5 shadow-sm">
-        <p className="text-[11px] font-bold uppercase tracking-widest text-ink/45">Damage report</p>
-        <h2 className="mt-1 text-2xl font-black tracking-tight">
-          {cap(make)} {model}
-        </h2>
-        <p className="text-sm text-ink/60">
-          {DAMAGE_LABEL[damage]} · {severity} · {safetyStop ? 'safety stop' : `${rows.length} shops matched`}
-        </p>
-        {confidence && (
-          <p className="mt-2 inline-flex rounded-full bg-brand/10 px-2.5 py-1 text-xs font-bold text-brand">
-            AI read: {DAMAGE_LABEL[confidence.type]} · {Math.round(confidence.confidence * 100)}%
-          </p>
-        )}
+      <div className="rounded-2xl bg-ink p-6 text-white">
+        <div className="flex items-center justify-between"><p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/60">Your repair report</p><Icon name="report" className="h-5 w-5 text-[#FFAA78]" /></div>
+        <h2 className="mt-3 text-2xl font-bold tracking-tight">{cap(make)} {model}</h2>
+        <p className="mt-1 text-xs text-white/70">{DAMAGE_LABEL[damage]} · {severity} · {safetyStop ? 'safety stop' : `${rows.length} shops matched`}</p>
+        {confidence && <p className="mt-3 inline-flex rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-medium text-[#FFBD96]">AI read: {DAMAGE_LABEL[confidence.type]} · {Math.round(confidence.confidence * 100)}%</p>}
       </div>
 
       {safetyStop && (
@@ -181,8 +191,8 @@ function Report({
         </div>
       )}
 
-      <div className="rounded-3xl border border-ink/10 bg-white p-5 shadow-sm">
-        <SectionTitle n="1" title="Possible faulty" />
+      <div className="rounded-2xl border border-ink/[0.08] bg-white p-5">
+        <SectionTitle n="1" title="Likely faults" />
         <ul className="mt-2 space-y-1.5 text-sm text-ink/75">
           {guide.possible.map((item) => (
             <li key={item} className="flex gap-2">
@@ -194,7 +204,7 @@ function Report({
         {notes && <p className="mt-2 text-xs text-ink/45">Photo note: {notes}</p>}
       </div>
 
-      <div className="rounded-3xl border border-ink/10 bg-white p-5 shadow-sm">
+      <div className="rounded-2xl border border-ink/[0.08] bg-white p-5">
         <SectionTitle n="2" title="Required fixes" />
         <ul className="mt-2 space-y-1.5 text-sm text-ink/75">
           {guide.fixes.map((item) => (
@@ -209,7 +219,7 @@ function Report({
 
       {!safetyStop && (
         <>
-          <div className="rounded-3xl border border-ink/10 bg-white p-5 shadow-sm">
+          <div className="rounded-2xl border border-ink/[0.08] bg-white p-5">
             <SectionTitle n="3" title="Rough quotation" />
             <div className="mt-2 flex flex-wrap items-end gap-2">
               <p className="text-3xl font-black tracking-tight">
@@ -221,15 +231,16 @@ function Report({
               Best effective cost {best ? `${rm(best.effectiveCost)} at ${shops.get(best.workshopId)?.name}` : '—'}. Band,
               not a fixed price. Every price is seeded and labelled <span className="font-semibold">estimated · 19 Nov</span>.
             </p>
-            <div className="mt-3 divide-y divide-ink/10">
+            <div className="mt-4 space-y-2">
               {rows.map((row) => (
-                <div key={row.workshopId} className="flex flex-wrap items-center justify-between gap-2 py-2">
+                <div key={row.workshopId} className={`flex flex-wrap items-center justify-between gap-2 rounded-xl border p-3 ${row.verdict === 'best_value' ? 'border-[#D3E1C8] bg-[#F3F7EF]' : 'border-ink/[0.07]'}`}>
                   <div className="min-w-0">
                     <p className="text-sm font-bold">{shops.get(row.workshopId)?.name}</p>
                     <p className="text-[11px] text-ink/50">
                       {row.priceBand[0] && `${rm(row.priceBand[0])}–${rm(row.priceBand[1])} · `}
                       {PART_LABEL[row.partGrade]} · {row.warrantyMonths === 0 ? 'no warranty' : `${row.warrantyMonths} mo`}
                     </p>
+                    <p className="mt-1 text-[10px] text-ink/55">estimated · {row.provenance.date} · seeded survey · n = {row.provenance.n}</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-black">{rm(row.effectiveCost)}</span>
@@ -240,7 +251,7 @@ function Report({
             </div>
           </div>
 
-          <div className="rounded-3xl border border-ink/10 bg-white p-5 shadow-sm">
+          <div className="rounded-2xl border border-ink/[0.08] bg-white p-5">
             <SectionTitle n="4" title="Map" />
             <svg viewBox="0 0 320 170" className="mt-2 h-44 w-full rounded-2xl bg-[#EDF1E7]" role="img" aria-label="Seeded workshop map">
               <path d="M0 40 H320 M0 85 H320 M0 130 H320 M80 0 V170 M160 0 V170 M240 0 V170" stroke="#D8DECF" strokeWidth="6" />
@@ -267,7 +278,7 @@ function Report({
             <p className="mt-2 text-[11px] text-ink/45">Seeded distances for the demo — no live maps or geolocation.</p>
           </div>
 
-          <div className="rounded-3xl border border-ink/10 bg-white p-5 shadow-sm">
+          <div className="rounded-2xl border border-ink/[0.08] bg-white p-5">
             <SectionTitle n="5" title="Recommended workshops" />
             <div className="mt-2 divide-y divide-ink/10">
               {rows.map((row, index) => {
@@ -306,7 +317,7 @@ function Report({
       )}
 
       {safetyStop && (
-        <div className="rounded-3xl border border-ink/10 bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border border-ink/[0.08] bg-white p-5">
           <SectionTitle n="3" title="Inspection shops" />
           <p className="mt-1 text-xs text-ink/50">No prices for a safety stop. Call for an inspection.</p>
           <div className="mt-2 divide-y divide-ink/10">
@@ -354,8 +365,8 @@ function Report({
 
 function SectionTitle({ n, title }: { n: string; title: string }) {
   return (
-    <h3 className="flex items-center gap-2 text-sm font-black uppercase tracking-wide">
-      <span className="grid h-5 w-5 place-items-center rounded-full bg-ink text-[10px] text-white">{n}</span>
+    <h3 className="flex items-center gap-2.5 text-sm font-bold tracking-tight">
+      <span className="grid h-6 w-6 place-items-center rounded-lg bg-[#FFF0E4] text-[10px] font-bold text-[#AC460D]">{n}</span>
       {title}
     </h3>
   );
@@ -381,6 +392,12 @@ export default function Home() {
   const [draft, setDraft] = useState('');
   const [offline, setOffline] = useState(false);
   const nextId = useRef(10);
+  const threadRef = useRef<HTMLDivElement>(null);
+  const currentStep = stage === 'car' ? 0 : stage === 'photo' || stage === 'detail' ? 1 : stage === 'safety' ? 2 : 3;
+
+  useEffect(() => {
+    threadRef.current?.scrollTo({ top: threadRef.current.scrollHeight, behavior: 'smooth' });
+  }, [messages, loading]);
 
   useEffect(() => {
     setOffline(new URLSearchParams(window.location.search).get('offline') === '1');
@@ -399,7 +416,8 @@ export default function Home() {
 
   function push(role: Msg['role'], text: string, image?: string) {
     nextId.current += 1;
-    setMessages((current) => [...current, { id: nextId.current, role, text, image }]);
+    const id = nextId.current;
+    setMessages((current) => [...current, { id, role, text, image }]);
   }
 
   function changeMake(next: Make) {
@@ -545,265 +563,184 @@ export default function Home() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 pb-12 pt-6 sm:px-6">
-      <header className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <div className="grid h-11 w-11 place-items-center rounded-2xl bg-brand text-lg font-black text-white">BB</div>
-          <div>
-            <h1 className="text-xl font-black tracking-tight">Bengkel Baik</h1>
-            <p className="text-xs text-ink/60">Chat. Show the photo. Get a repair report.</p>
+    <div className="ui-preview min-h-screen bg-[#F7F6F2]">
+      <header className="border-b border-ink/[0.07] bg-white/80">
+        <div className="mx-auto flex max-w-[1200px] items-center justify-between gap-3 px-5 py-5 sm:px-8">
+          <div className="flex items-center gap-3">
+            <div className="grid h-10 w-10 place-items-center rounded-xl bg-brand text-white shadow-[0_4px_12px_#FF5A0025]"><Icon name="wrench" /></div>
+            <div>
+              <p className="text-lg font-extrabold tracking-tight">bengkel<span className="text-brand">baik</span><span className="text-brand">.</span></p>
+              <p className="text-[10px] font-medium tracking-wide text-ink/55">A clearer road to repair</p>
+            </div>
           </div>
-        </div>
-        <div className="flex items-center gap-2">
-          {offline && (
-            <span className="rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-xs font-bold text-brand">
-              Offline mode
-            </span>
-          )}
-          <Link
-            href="/classic"
-            className="rounded-full border border-ink/15 bg-white px-3 py-1 text-xs font-semibold text-ink/60 hover:border-ink/40"
-          >
-            Classic table view
-          </Link>
+          <nav aria-label="Main navigation" className="flex items-center gap-3 sm:gap-6">
+            <span className="hidden items-center gap-2 text-xs text-ink/55 sm:flex"><span className="h-1.5 w-1.5 rounded-full bg-brand" />{offline ? 'Offline demo' : 'Hackathon preview'}</span>
+            <Link href="/classic" className="flex items-center gap-2 rounded-lg border border-ink/10 bg-white px-3 py-2 text-xs font-semibold text-ink/70 transition hover:border-brand/40 hover:text-brand"><Icon name="table" className="h-4 w-4" /><span>Table view</span></Link>
+          </nav>
         </div>
       </header>
 
-      <div className="mt-6">
-        <p className="text-3xl font-black leading-tight tracking-tight sm:text-4xl">Tell us what happened.</p>
-        <p className="mt-1 max-w-2xl text-sm text-ink/65 sm:text-base">
-          We ask a couple of questions, then turn the damage into a comparable report: likely faults, required
-          fixes, rough quotes, and the workshops that serve your car.
-        </p>
-      </div>
+      <main className="mx-auto max-w-[1200px] px-5 pb-8 pt-9 sm:px-8 sm:pt-12">
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-[#AC460D]">Car trouble, minus the guesswork</p>
+            <h1 className="text-[36px] font-extrabold leading-[1.12] tracking-[-0.045em] sm:text-[48px]">A little damage.<br /><span className="text-brand">A clearer next step.</span></h1>
+            <p className="mt-4 max-w-[480px] text-sm leading-relaxed text-ink/60">Tell us what happened. Understand the repair, compare workshop estimates, and know what to ask before you pay.</p>
+          </div>
+          <div className="hidden max-w-[215px] items-start gap-3 pb-1 lg:flex">
+            <div className="mt-0.5 rounded-lg bg-[#E9EDE4] p-2 text-[#556442]"><Icon name="shield" className="h-4 w-4" /></div>
+            <div><p className="text-xs font-semibold">An informed first step.</p><p className="mt-1 text-xs leading-relaxed text-ink/55">Not a diagnosis. A workshop inspection confirms the repair.</p></div>
+          </div>
+        </div>
 
-      <div className="mt-5 grid items-start gap-5 lg:grid-cols-[0.92fr_1.08fr]">
-        <section className="min-w-0 overflow-hidden rounded-3xl border border-ink/10 bg-white shadow-sm">
-          <div className="flex items-center justify-between border-b border-ink/10 px-4 py-3">
-            <div>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-ink/40">Bengkel Baik assistant</p>
-              <p className="text-sm font-bold">Tell us what happened</p>
+        <ol aria-label="Assessment progress" className="my-7 grid grid-cols-4 overflow-hidden rounded-xl border border-ink/[0.07] bg-white sm:my-8">
+          {[
+            { label: 'Your car', icon: 'car' },
+            { label: 'The damage', icon: 'photo' },
+            { label: 'Safety check', icon: 'shield' },
+            { label: 'Your report', icon: 'report' },
+          ].map((step, index) => (
+            <li key={step.label} aria-current={index === currentStep ? 'step' : undefined} className={`flex items-center justify-center gap-2 border-r border-ink/[0.06] px-2 py-3.5 last:border-r-0 sm:justify-start sm:gap-3 sm:px-5 ${index === currentStep ? 'bg-[#FFF4EA]' : ''}`}>
+              <span className={`hidden h-7 w-7 shrink-0 items-center justify-center rounded-lg sm:flex ${index < currentStep ? 'bg-[#EAF0E5] text-[#556442]' : index === currentStep ? 'bg-brand text-white' : 'bg-ink/[0.04] text-ink/35'}`}><Icon name={index < currentStep ? 'check' : step.icon as IconName} className="h-4 w-4" /></span>
+              <div><p className={`text-[10px] font-bold sm:text-xs ${index === currentStep ? 'text-[#AC460D]' : index < currentStep ? 'text-ink/70' : 'text-ink/50'}`}><span className="mr-1 sm:hidden">{index + 1}.</span>{step.label}</p><p className="mt-0.5 hidden text-[10px] text-ink/50 sm:block">{index < currentStep ? 'Completed' : index === currentStep ? stage === 'report' ? 'Ready to view' : 'You are here' : 'Up next'}</p></div>
+            </li>
+          ))}
+        </ol>
+
+        <div className="grid items-start gap-6 lg:grid-cols-[1.12fr_0.88fr]">
+          <section aria-label="Repair assistant" className="min-w-0 overflow-hidden rounded-2xl border border-ink/[0.08] bg-white shadow-[0_8px_30px_#14181F04] lg:sticky lg:top-6">
+            <div className="flex items-center justify-between gap-2 border-b border-ink/[0.07] px-5 py-4 sm:px-6">
+              <div className="flex items-center gap-3"><div className="grid h-9 w-9 place-items-center rounded-xl bg-[#FFF0E4] text-brand"><Icon name="spark" className="h-4 w-4" /></div><div><h2 className="text-sm font-bold">Your repair assistant</h2><p className="mt-0.5 text-[11px] text-ink/55">A few questions. A lot more clarity.</p></div></div>
+              <span className="rounded-full border border-ink/[0.08] px-2.5 py-1 text-[10px] font-medium text-ink/55">Qwen AI</span>
             </div>
-            <span className="rounded-full bg-brand/10 px-2.5 py-1 text-[10px] font-bold text-brand">AI SDK · Qwen</span>
-          </div>
 
-          <div className="max-h-[340px] space-y-3 overflow-y-auto px-4 py-4">
-            {messages.map((message) => (
-              <div key={message.id} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div
-                  className={`max-w-[88%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed ${
-                    message.role === 'user' ? 'bg-brand text-white' : 'bg-paper text-ink/80'
-                  }`}
-                >
-                  {message.image && (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={message.image} alt="Uploaded damage" className="mb-2 h-24 w-36 rounded-lg object-cover" />
-                  )}
-                  {message.text}
+            <div ref={threadRef} role="log" aria-label="Conversation" aria-live="polite" aria-busy={loading} className="chat-thread max-h-[300px] min-h-[170px] space-y-4 overflow-y-auto px-5 py-6 sm:px-6">
+              {messages.map((message) => (
+                <div key={message.id} className={`flex gap-2.5 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  {message.role === 'assistant' && <span className="mt-1 grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-[#FFF0E4] text-brand"><Icon name="spark" className="h-3.5 w-3.5" /></span>}
+                  <div className={`max-w-[88%] rounded-2xl px-4 py-3 text-[13px] leading-[1.7] ${message.role === 'user' ? 'rounded-tr-sm bg-ink text-white' : 'rounded-tl-sm bg-[#F5F5F1] text-ink/75'}`}>
+                    {message.image && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={message.image} alt="Uploaded damage" className="mb-2 h-24 w-36 rounded-lg object-cover" />
+                    )}
+                    {message.text}
+                  </div>
                 </div>
-              </div>
-            ))}
-            {loading && <p className="text-xs font-semibold text-ink/40">Thinking…</p>}
-          </div>
+              ))}
+              {loading && <p role="status" className="ml-9 flex items-center gap-2 text-xs text-ink/55"><span className="h-2 w-2 animate-pulse rounded-full bg-brand" />Looking into that…</p>}
+            </div>
 
-          <div className="border-t border-ink/10 px-4 py-3">
-            {stage === 'car' && (
-              <div className="space-y-2">
-                <div className="grid grid-cols-2 gap-2">
-                  <select
-                    aria-label="Make"
-                    value={make}
-                    onChange={(event) => changeMake(event.target.value as Make)}
-                    className="w-full rounded-xl border border-ink/15 px-2.5 py-2 text-sm font-semibold"
-                  >
-                    {MAKES.map((item) => (
-                      <option key={item} value={item}>
-                        {cap(item)}
-                      </option>
-                    ))}
-                  </select>
-                  <select
-                    aria-label="Model"
-                    value={model}
-                    onChange={(event) => setModel(event.target.value)}
-                    className="w-full rounded-xl border border-ink/15 px-2.5 py-2 text-sm font-semibold"
-                  >
-                    {MODELS[make].map((item) => (
-                      <option key={item} value={item}>
-                        {item}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <button type="button" onClick={confirmCar} className="w-full rounded-xl bg-brand px-3 py-2.5 text-sm font-bold text-white">
-                  Continue
-                </button>
-              </div>
-            )}
-
-            {stage === 'photo' && (
-              <div className="space-y-2">
-                <label className="flex cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-dashed border-ink/15 px-3 py-3 text-sm font-bold hover:border-brand/60">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="sr-only"
-                    onChange={(event) => {
-                      const file = event.target.files?.[0];
-                      if (file) void handleFile(file);
-                    }}
-                  />
-                  📷 Upload a damage photo
-                </label>
-                {photo && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={photo} alt="Preview" className="h-16 w-24 rounded-lg object-cover" />
+            <div className="px-5 pb-5 sm:px-6">
+              <div className="rounded-xl border border-ink/[0.07] bg-[#FAFAF7] p-4">
+                {stage === 'car' && (
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2"><Icon name="car" className="h-4 w-4 text-ink/60" /><h3 className="text-xs font-bold">First, let’s meet your car</h3></div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <label className="block text-[11px] font-medium text-ink/60">Car make
+                        <select aria-label="Make" value={make} onChange={(event) => changeMake(event.target.value as Make)} className="ui-select mt-1.5">
+                          {MAKES.map((item) => <option key={item} value={item}>{cap(item)}</option>)}
+                        </select>
+                      </label>
+                      <label className="block text-[11px] font-medium text-ink/60">Car model
+                        <select aria-label="Model" value={model} onChange={(event) => setModel(event.target.value)} className="ui-select mt-1.5">
+                          {MODELS[make].map((item) => <option key={item} value={item}>{item}</option>)}
+                        </select>
+                      </label>
+                    </div>
+                    <button type="button" onClick={confirmCar} className="ui-primary w-full">Continue with this car<Icon name="arrow" className="h-4 w-4" /></button>
+                  </div>
                 )}
-                <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                  {DAMAGE_TYPES.map((item) => (
-                    <button
-                      key={item}
-                      type="button"
-                      onClick={() => chooseDamage(item)}
-                      className="rounded-xl border border-ink/15 px-2 py-2 text-xs font-semibold hover:border-brand"
-                    >
-                      {DAMAGE_LABEL[item]}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
 
-            {stage === 'detail' && (
-              <div className="space-y-2">
-                <p className="text-xs font-semibold text-ink/50">How bad is it?</p>
-                <div className="grid grid-cols-3 gap-2">
-                  {(['minor', 'moderate', 'severe'] as Severity[]).map((item) => (
-                    <button
-                      key={item}
-                      type="button"
-                      onClick={() => chooseSeverity(item)}
-                      className={`rounded-xl border px-2 py-2 text-xs font-bold capitalize ${
-                        severity === item ? 'border-ink bg-ink text-white' : 'border-ink/15 hover:border-brand'
-                      }`}
-                    >
-                      {item}
-                    </button>
-                  ))}
-                </div>
-                {!photo && (
-                  <label className="flex cursor-pointer items-center justify-center rounded-xl border border-dashed border-ink/15 px-3 py-2 text-xs font-bold hover:border-brand/60">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className="sr-only"
-                      onChange={(event) => {
-                        const file = event.target.files?.[0];
-                        if (file) void handleFile(file);
-                      }}
-                    />
-                    Add a photo instead
-                  </label>
+                {stage === 'photo' && (
+                  <div className="space-y-3">
+                    <label className="flex cursor-pointer flex-col items-center gap-2 rounded-xl border border-dashed border-brand/35 bg-[#FFF8F1] px-3 py-5 text-center transition hover:bg-[#FFF0E4] focus-within:outline focus-within:outline-2 focus-within:outline-brand">
+                      <input type="file" accept="image/*" disabled={loading} aria-label="Upload a damage photo" className="sr-only" onChange={(event) => { const file = event.target.files?.[0]; if (file) void handleFile(file); }} />
+                      <Icon name="photo" className="h-6 w-6 text-brand" /><span className="text-xs font-bold">Upload a damage photo</span><span className="text-[11px] text-ink/55">A clear, close-up photo works best</span>
+                    </label>
+                    {photo && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={photo} alt="Preview" className="h-16 w-24 rounded-lg object-cover" />
+                    )}
+                    <p className="text-[11px] font-medium text-ink/55">No photo? Choose the damaged part.</p>
+                    <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                      {DAMAGE_TYPES.map((item) => <button key={item} type="button" disabled={loading} onClick={() => chooseDamage(item)} className="ui-option">{DAMAGE_LABEL[item]}</button>)}
+                    </div>
+                  </div>
                 )}
+
+                {stage === 'detail' && (
+                  <div className="space-y-3">
+                    <h3 className="text-xs font-bold">How bad is the damage?</h3>
+                    <div className="grid grid-cols-3 gap-2">
+                      {(['minor', 'moderate', 'severe'] as Severity[]).map((item) => <button key={item} type="button" disabled={loading} onClick={() => chooseSeverity(item)} className="ui-option capitalize">{item}</button>)}
+                    </div>
+                    {!photo && <label className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-dashed border-ink/15 px-3 py-2.5 text-xs font-semibold text-ink/65 focus-within:outline focus-within:outline-2 focus-within:outline-brand"><input type="file" accept="image/*" disabled={loading} aria-label="Add a photo instead" className="sr-only" onChange={(event) => { const file = event.target.files?.[0]; if (file) void handleFile(file); }} /><Icon name="photo" className="h-4 w-4" />Add a photo instead</label>}
+                  </div>
+                )}
+
+                {stage === 'safety' && (
+                  <div className="space-y-3">
+                    <h3 className="flex items-center gap-2 text-xs font-bold"><Icon name="shield" className="h-4 w-4 text-brand" />Before we compare any prices</h3>
+                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                      <button type="button" onClick={() => answerSafety(false)} className="ui-option">No safety signs</button>
+                      <button type="button" onClick={() => answerSafety(true)} className="rounded-lg border border-red-200 bg-red-50 px-2 py-3 text-xs font-semibold text-red-800 transition hover:bg-red-100">Yes — airbag / fluid / frame</button>
+                    </div>
+                  </div>
+                )}
+
+                {stage === 'ready' && <div className="space-y-2"><button type="button" onClick={generateReport} className="ui-primary w-full">Generate report<Icon name="arrow" className="h-4 w-4" /></button><button type="button" onClick={startOver} className="ui-option w-full">Start over</button></div>}
+                {stage === 'report' && <button type="button" onClick={startOver} className="ui-option w-full">Start a new report</button>}
               </div>
-            )}
-
-            {stage === 'safety' && (
-              <div className="grid grid-cols-2 gap-2">
-                <button
-                  type="button"
-                  onClick={() => answerSafety(false)}
-                  className="rounded-xl border border-ink/15 px-2 py-2.5 text-xs font-bold hover:border-brand"
-                >
-                  No safety signs
-                </button>
-                <button
-                  type="button"
-                  onClick={() => answerSafety(true)}
-                  className="rounded-xl border border-red-300 bg-red-50 px-2 py-2.5 text-xs font-bold text-red-800"
-                >
-                  Yes — airbag / fluid / frame
-                </button>
-              </div>
-            )}
-
-            {stage === 'ready' && (
-              <div className="space-y-2">
-                <button type="button" onClick={generateReport} className="w-full rounded-xl bg-brand px-3 py-2.5 text-sm font-bold text-white">
-                  Generate report
-                </button>
-                <button type="button" onClick={startOver} className="w-full rounded-xl border border-ink/15 px-3 py-2 text-xs font-semibold text-ink/60">
-                  Start over
-                </button>
-              </div>
-            )}
-
-            {stage === 'report' && (
-              <button type="button" onClick={startOver} className="w-full rounded-xl border border-ink/15 px-3 py-2.5 text-xs font-semibold text-ink/60">
-                New report
-              </button>
-            )}
-
-            <div className="mt-3 flex gap-2">
-              <input
-                value={draft}
-                onChange={(event) => setDraft(event.target.value)}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter') void sendText();
-                }}
-                placeholder="Type the damage, e.g. bumper dent"
-                className="min-w-0 flex-1 rounded-xl border border-ink/15 px-3 py-2 text-sm"
-              />
-              <button
-                type="button"
-                onClick={() => void sendText()}
-                disabled={loading || draft.trim().length === 0}
-                className="rounded-xl bg-ink px-3 py-2 text-xs font-bold text-white disabled:opacity-40"
-              >
-                Send
-              </button>
             </div>
-          </div>
-        </section>
 
-        <aside className="min-w-0">
-          {stage === 'report' && damage ? (
-            <Report
-              make={make}
-              model={model}
-              damage={damage}
-              severity={severity}
-              safetyStop={safetyStop}
-              assessment={assessment}
-              rows={rows}
-            />
-          ) : (
-            <div className="rounded-3xl border border-dashed border-ink/20 bg-white/50 p-6">
-              <p className="text-[11px] font-bold uppercase tracking-widest text-ink/40">Report preview</p>
-              <h2 className="mt-2 text-xl font-black tracking-tight">Five answers, one screen.</h2>
-              <ol className="mt-4 space-y-3 text-sm text-ink/65">
-                {['Possible faulty', 'Required fixes', 'Rough quotation', 'Map', 'Recommended workshops'].map((item, index) => (
-                  <li key={item} className="flex items-center gap-3">
-                    <span className="grid h-6 w-6 place-items-center rounded-full bg-ink text-[10px] font-bold text-white">
-                      {index + 1}
-                    </span>
-                    <span className="font-semibold">{item}</span>
-                  </li>
-                ))}
-              </ol>
-              <p className="mt-5 text-xs leading-relaxed text-ink/45">
-                Answer the questions on the left. The report appears here. Safety questions are asked before
-                any price is shown.
-              </p>
+            <div className="border-t border-ink/[0.07] px-5 py-4 sm:px-6">
+              <div className="flex items-center gap-2 rounded-xl border border-ink/10 bg-white p-1.5 focus-within:border-brand/50 focus-within:ring-2 focus-within:ring-brand/10">
+                <input aria-label="Message the assistant" value={draft} onChange={(event) => setDraft(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter' && !event.nativeEvent.isComposing) void sendText(); }} placeholder="Or tell us what happened…" className="min-w-0 flex-1 border-0 bg-transparent px-2 py-2 text-base outline-none sm:text-xs" />
+                <button type="button" aria-label="Send message" onClick={() => void sendText()} disabled={loading || draft.trim().length === 0} className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-ink text-white transition hover:bg-ink/80 disabled:cursor-not-allowed disabled:bg-ink/15 disabled:text-ink/40"><Icon name="arrow" className="h-4 w-4" /></button>
+              </div>
+              <p className="mt-2 text-center text-[10px] text-ink/50">{offline ? 'Photo assessment uses cached demo results.' : 'Powered by Qwen · You can also use the buttons above.'}</p>
             </div>
-          )}
-        </aside>
-      </div>
+          </section>
 
-      <footer className="mt-8 flex flex-wrap items-center justify-between gap-2 text-[11px] text-ink/40">
-        <span>Bengkel Baik · hackathon demo · 19 Nov 2026</span>
-        <span>Not advice. An inspection confirms the repair.</span>
-      </footer>
+          <aside aria-label="Your repair report" className="min-w-0">
+            {stage === 'report' && damage ? <Report make={make} model={model} damage={damage} severity={severity} safetyStop={safetyStop} assessment={assessment} rows={rows} /> : (
+              <div className="overflow-hidden rounded-2xl border border-ink/[0.08] bg-white">
+                <div className="relative overflow-hidden border-b border-ink/[0.06] bg-[#EEEEE7] px-6 pb-3 pt-5">
+                  <div className="flex items-center justify-between"><p className="text-[10px] font-bold uppercase tracking-[0.16em] text-ink/55">Your car, your next step</p><span className="rounded-full border border-ink/10 bg-white/60 px-2.5 py-1 text-[10px] font-medium text-ink/60">{cap(make)} {model}</span></div>
+                  <svg viewBox="0 0 440 190" fill="none" className="mx-auto mt-2 h-[150px] w-full" aria-hidden="true">
+                    <ellipse cx="223" cy="159" rx="157" ry="10" fill="#D5D8CD" />
+                    <circle cx="242" cy="89" r="72" stroke="#D9DDD1" strokeDasharray="4 6" />
+                    <path d="M61 129 74 105l48-15 36-44q8-8 24-8h87q17 0 27 13l37 48 41 14q13 4 13 17v16H61Z" fill="#FAFBF7" stroke="#596356" strokeWidth="2" />
+                    <path d="m135 90 32-40h37v40Zm79-40h49q9 0 14 7l25 33h-88Z" fill="#CCD5C8" stroke="#596356" strokeWidth="1.5" />
+                    <path d="M214 95v49M122 96l-10 47m12-42h191M76 127h26m223 0h51M238 105h17" stroke="#8C9586" strokeWidth="1.5" />
+                    <path d="m305 90 22 3 5 9h-20Z" fill="#FAFBF7" stroke="#596356" strokeWidth="1.5" />
+                    <path d="M67 119h20l-5-9-12 4Zm287-3h21l4 10h-24Z" fill="#F7B780" stroke="#A36C42" />
+                    <circle cx="120" cy="145" r="23" fill="#384333" /><circle cx="120" cy="145" r="13" fill="#D4DACD" /><circle cx="120" cy="145" r="5" fill="#929C87" />
+                    <circle cx="320" cy="145" r="23" fill="#384333" /><circle cx="320" cy="145" r="13" fill="#D4DACD" /><circle cx="320" cy="145" r="5" fill="#929C87" />
+                    <circle cx="78" cy="132" r="19" stroke="#FF5A00" strokeDasharray="3 3" /><path d="m65 134 7-6 4 6 8-8" stroke="#FF5A00" strokeWidth="2" />
+                    <path d="M80 107V74H51" stroke="#B1B8A7" strokeDasharray="3 3" /><rect x="23" y="49" width="58" height="24" rx="6" fill="#FAFBF7" stroke="#D6DBCE" /><path d="M34 61h9m7 0h19" stroke="#A1AA96" strokeWidth="3" strokeLinecap="round" />
+                  </svg>
+                </div>
+                <div className="p-6">
+                  <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-[#AC460D]"><Icon name="report" className="h-3.5 w-3.5" />Report preview</div>
+                  <h2 className="mt-2 text-[22px] font-bold tracking-tight">From “what now?” to a plan.</h2>
+                  <p className="mt-2 text-xs leading-relaxed text-ink/55">Your answers turn into a practical repair report. Here’s what you’ll get.</p>
+                  <ol className="mt-5 divide-y divide-ink/[0.06]">
+                    {[
+                      { icon: 'wrench', title: 'Likely faults & required fixes', text: 'Understand what might need attention.' },
+                      { icon: 'table', title: 'Comparable repair estimates', text: 'Parts, labour and warranty — not just a price.' },
+                      { icon: 'pin', title: 'Workshops that serve your car', text: 'Compare nearby options and contact details.' },
+                      { icon: 'report', title: 'One shareable report', text: 'Keep the details together, ready to send.' },
+                    ].map((item) => <li key={item.title} className="flex items-start gap-3 py-3"><span className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-[#F3F4EF] text-[#67725A]"><Icon name={item.icon as IconName} className="h-4 w-4" /></span><div><p className="text-xs font-semibold">{item.title}</p><p className="mt-1 text-[11px] leading-relaxed text-ink/55">{item.text}</p></div></li>)}
+                  </ol>
+                  <div className={`mt-4 flex items-start gap-2.5 rounded-lg p-3 ${safetyStop ? 'bg-red-50 text-red-800' : 'bg-[#F5F5F1] text-ink/60'}`}><Icon name="shield" className="mt-0.5 h-4 w-4 shrink-0" /><p className="text-[11px] leading-relaxed">{safetyStop ? 'Safety stop: don’t drive. Your report will show inspection options, without prices.' : 'Safety comes before price. Airbag, fluid or frame damage means tow and inspect — no estimates.'}</p></div>
+                </div>
+              </div>
+            )}
+          </aside>
+        </div>
+        <footer className="mt-7 flex flex-wrap items-center justify-between gap-2 border-t border-ink/[0.07] pt-5 text-[10px] text-ink/50"><span>bengkelbaik. · Built for better-informed repairs.</span><span>Hackathon demo · Seeded estimates, not market prices · 19 Nov 2026</span></footer>
+      </main>
     </div>
   );
 }
