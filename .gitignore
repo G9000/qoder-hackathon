@@ -1,0 +1,9 @@
+node_modules
+.next
+out
+.env*
+!.env.local.example
+*.tsbuildinfo
+.DS_Store
+perodua-proton-car-data.zip
+seed/car-data/manuals
