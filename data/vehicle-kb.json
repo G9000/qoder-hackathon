@@ -1,0 +1,233 @@
+{
+  "note": "Curated demo knowledge base for two models. Likely causes are common impact/wear patterns, not a diagnosis. Checks reference the owner's manual; a physical inspection decides.",
+  "entries": [
+    {
+      "make": "perodua",
+      "model": "Myvi",
+      "damageType": "front_bumper",
+      "likelyCauses": [
+        "Low-speed parking or traffic impact (most common)",
+        "Kerb, cone or road-debris strike",
+        "Clip or bracket fatigue after an earlier repair"
+      ],
+      "whatToCheck": [
+        "Bumper clip tabs and mounting brackets behind the cover",
+        "Fog lamp and parking-sensor connectors if fitted",
+        "Panel gap against the fender and headlamp"
+      ],
+      "source": {
+        "title": "Perodua Myvi e-Owner's Manual",
+        "url": "https://eownersmanual.perodua.com.my/ourcars/"
+      }
+    },
+    {
+      "make": "perodua",
+      "model": "Myvi",
+      "damageType": "headlamp",
+      "likelyCauses": [
+        "Bulb or LED module wear",
+        "Water ingress through a cracked lens or seal",
+        "Impact that cracked the housing"
+      ],
+      "whatToCheck": [
+        "Correct bulb or LED type for the variant, per the manual",
+        "Lens cracks and moisture inside the housing",
+        "Connector corrosion and beam aim"
+      ],
+      "source": {
+        "title": "Perodua Myvi e-Owner's Manual",
+        "url": "https://eownersmanual.perodua.com.my/ourcars/"
+      }
+    },
+    {
+      "make": "perodua",
+      "model": "Myvi",
+      "damageType": "windscreen",
+      "likelyCauses": [
+        "Stone chip thrown up by road traffic",
+        "Crack growth from heat or an untreated chip",
+        "Direct impact damage"
+      ],
+      "whatToCheck": [
+        "Chip size and crack length before it spreads",
+        "Rain/light sensor and camera bracket if the variant has ASA",
+        "Camera recalibration after replacement on camera-equipped variants"
+      ],
+      "source": {
+        "title": "Perodua Myvi e-Owner's Manual",
+        "url": "https://eownersmanual.perodua.com.my/ourcars/"
+      }
+    },
+    {
+      "make": "perodua",
+      "model": "Myvi",
+      "damageType": "panel_dent",
+      "likelyCauses": [
+        "Car-park door ding or trolley impact",
+        "Low-speed collision",
+        "Hail or a falling object"
+      ],
+      "whatToCheck": [
+        "Whether the paint is cracked — paintless repair only works on intact paint",
+        "Door or fender gap alignment and window operation",
+        "Rust starting at the dent edge"
+      ],
+      "source": {
+        "title": "Perodua Myvi e-Owner's Manual",
+        "url": "https://eownersmanual.perodua.com.my/ourcars/"
+      }
+    },
+    {
+      "make": "perodua",
+      "model": "Myvi",
+      "damageType": "side_mirror",
+      "likelyCauses": [
+        "Parking or passing-traffic impact",
+        "Power-fold motor or gear wear",
+        "Loosened mount from vibration or a knock"
+      ],
+      "whatToCheck": [
+        "Mirror glass and indicator repeater",
+        "Power-fold and adjustment motors",
+        "Housing mount and painted cap"
+      ],
+      "source": {
+        "title": "Perodua Myvi e-Owner's Manual",
+        "url": "https://eownersmanual.perodua.com.my/ourcars/"
+      }
+    },
+    {
+      "make": "perodua",
+      "model": "Myvi",
+      "damageType": "wheel_tyre",
+      "likelyCauses": [
+        "Kerb strike",
+        "Pothole or road debris",
+        "Under-inflation or worn tread"
+      ],
+      "whatToCheck": [
+        "Sidewall bulge, cut or exposed cord",
+        "Rim runout and balance after impact",
+        "Tyre size and pressure per the door-jamb placard; alignment after a hard hit"
+      ],
+      "source": {
+        "title": "Perodua Myvi e-Owner's Manual",
+        "url": "https://eownersmanual.perodua.com.my/ourcars/"
+      }
+    },
+    {
+      "make": "proton",
+      "model": "Saga",
+      "damageType": "front_bumper",
+      "likelyCauses": [
+        "Low-speed parking or traffic impact (most common)",
+        "Kerb, cone or road-debris strike",
+        "Clip or bracket fatigue after an earlier repair"
+      ],
+      "whatToCheck": [
+        "Bumper clip tabs and mounting brackets behind the cover",
+        "Fog lamp wiring if fitted",
+        "Panel gap against the fender and headlamp"
+      ],
+      "source": {
+        "title": "PROTON Saga Owner's Manual",
+        "url": "https://www.proton.com/after-sales/owners-manual/saga"
+      }
+    },
+    {
+      "make": "proton",
+      "model": "Saga",
+      "damageType": "headlamp",
+      "likelyCauses": [
+        "Halogen bulb wear",
+        "Water ingress through a cracked lens or seal",
+        "Impact that cracked the housing"
+      ],
+      "whatToCheck": [
+        "Correct bulb type for the variant, per the manual",
+        "Reflector condition, lens cracks and moisture",
+        "Connector corrosion and beam aim"
+      ],
+      "source": {
+        "title": "PROTON Saga Owner's Manual",
+        "url": "https://www.proton.com/after-sales/owners-manual/saga"
+      }
+    },
+    {
+      "make": "proton",
+      "model": "Saga",
+      "damageType": "windscreen",
+      "likelyCauses": [
+        "Stone chip thrown up by road traffic",
+        "Crack growth from heat or an untreated chip",
+        "Direct impact damage"
+      ],
+      "whatToCheck": [
+        "Chip size and crack length before it spreads",
+        "Wiper and washer operation",
+        "Trim and seal seating after replacement"
+      ],
+      "source": {
+        "title": "PROTON Saga Owner's Manual",
+        "url": "https://www.proton.com/after-sales/owners-manual/saga"
+      }
+    },
+    {
+      "make": "proton",
+      "model": "Saga",
+      "damageType": "panel_dent",
+      "likelyCauses": [
+        "Car-park door ding or trolley impact",
+        "Low-speed collision",
+        "Hail or a falling object"
+      ],
+      "whatToCheck": [
+        "Whether the paint is cracked — paintless repair only works on intact paint",
+        "Door or fender gap alignment and window operation",
+        "Rust starting at the dent edge"
+      ],
+      "source": {
+        "title": "PROTON Saga Owner's Manual",
+        "url": "https://www.proton.com/after-sales/owners-manual/saga"
+      }
+    },
+    {
+      "make": "proton",
+      "model": "Saga",
+      "damageType": "side_mirror",
+      "likelyCauses": [
+        "Parking or passing-traffic impact",
+        "Power-fold motor or gear wear (if fitted)",
+        "Loosened mount from vibration or a knock"
+      ],
+      "whatToCheck": [
+        "Mirror glass and indicator repeater",
+        "Manual or power-fold operation, depending on variant",
+        "Housing mount and painted cap"
+      ],
+      "source": {
+        "title": "PROTON Saga Owner's Manual",
+        "url": "https://www.proton.com/after-sales/owners-manual/saga"
+      }
+    },
+    {
+      "make": "proton",
+      "model": "Saga",
+      "damageType": "wheel_tyre",
+      "likelyCauses": [
+        "Kerb strike",
+        "Pothole or road debris",
+        "Under-inflation or worn tread"
+      ],
+      "whatToCheck": [
+        "Sidewall bulge, cut or exposed cord",
+        "Rim runout and balance after impact",
+        "Tyre size and pressure per the door-jamb placard; alignment after a hard hit"
+      ],
+      "source": {
+        "title": "PROTON Saga Owner's Manual",
+        "url": "https://www.proton.com/after-sales/owners-manual/saga"
+      }
+    }
+  ]
+}
