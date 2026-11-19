@@ -17,9 +17,9 @@ table** from nearby workshops.
 
 The table is the product. The photo is the front door. Never invert that.
 
-**Channel vision:** WhatsApp-first; **build:** web app. The web app is the reference client
-for the same `/api/assess` endpoint a WhatsApp adapter would call. No product logic lives
-in the channel. Do not add a chat webhook or provider SDK in this build.
+**Surface:** web app. The ranked table, filters and safety stop are the product; a chat
+thread would flatten the option comparison. Do not add a chat provider SDK or webhook in
+this build.
 
 **Core claim we must be able to defend on stage:**
 
@@ -45,8 +45,8 @@ in the channel. Do not add a chat webhook or provider SDK in this build.
    suspected frame damage: show `Don't drive — tow`, show **no prices**, and stop.
 7. **Offline mode must work.** `?offline=1` serves `data/demo-cache.json`. The demo
    must survive conference wifi.
-8. **No chat integration in this build.** WhatsApp/Telegram is the roadmap channel; the
-   web app is the reference client. No provider SDK, no webhook, no second deploy.
+8. **Web app only in this build.** No chat provider SDK, webhook or bot integration. The
+   comparison needs side-by-side options; that is a surface, not a message thread.
 
 ---
 
@@ -232,8 +232,8 @@ with an empty price. If nothing matches, say so and show the nearest shops by ar
 
 Video input. Booking. Live workshop APIs. Maps. Chat history. Login. Admin UI.
 A real price scraper. Anything that requires a second deploy. Anything that needs a
-database. Any new damage class. Styling after 14:00. WhatsApp/Telegram integration or
-any chat webhook.
+database. Any new damage class. Styling after 14:00. Any chat bot or provider webhook —
+WhatsApp, Telegram or otherwise.
 
 ---
 

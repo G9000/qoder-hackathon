@@ -7,9 +7,9 @@ Built for Alibaba Cloud x Developer Kaki QodeFest, 19 Nov 2026 — Digital Inclu
 > **RM800 vs RM780 is not a choice.** Those two quotes price different things: part grade,
 > labour, warranty and lead time. We normalise them, so a comparison becomes possible.
 
-**Channel vision:** WhatsApp-first. **This build:** the web app — the reference client
-for the same `POST /api/assess` endpoint a WhatsApp adapter would call. No product logic
-lives in the channel, so the adapter is a second deploy, not a rewrite.
+**Why a web app, not chat:** the product is the option set — part grade, labour, warranty,
+lead time, effective cost and a safety stop, side by side. A chat thread flattens that; a
+filterable table makes it comparable at a glance.
 
 ## Run it
 

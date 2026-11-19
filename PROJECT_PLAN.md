@@ -31,24 +31,18 @@ information — they lack a **normalisation layer**.
 6. Safety rule: airbag / fluid leak / suspected frame damage → *don't drive, tow* —
    no prices shown.
 
-### Channel frame: WhatsApp-first, web app first
+### Surface: web app, not a chat bot
 
-The product vision is a **WhatsApp-first assistant**: the driver sends a photo in
-WhatsApp, gets the damage + make hint back, confirms, and receives the ranked workshop
-list. WhatsApp is the **distribution channel**; the normalisation pipeline is the product.
+The product is the **normalised option set**: part grade, labour hours, warranty, lead
+time, effective cost and a safety stop, side by side. A web app presents that as a ranked,
+filterable table with the details a consumer needs to choose. A chat thread flattens it
+into messages and loses the comparison, so the web app is the product surface — not a
+fallback.
 
-**What we build today:** the web app is the reference client and the demo. It calls the
-same `POST /api/assess` endpoint a WhatsApp adapter would call. No product logic lives in
-the channel.
-
-**Why we do not build the WhatsApp integration now:** it needs a Meta/Twilio Business
-account, an approved sender, a public webhook, template-message handling and the 24-hour
-session window. That is a second deploy and an approval dependency we cannot clear before
-14:40. It also adds failure modes that do not test the core claim. On stage: *"The web app
-is the reference client; WhatsApp is the deployment channel."*
-
-**Roadmap:** WhatsApp Cloud API (or Twilio) webhook → download the photo → same
-`/api/assess` pipeline → reply with the ranked table and shortlist. No new domain logic.
+**Why not WhatsApp/Telegram:** the comparison needs side-by-side options and visible
+provenance. A bot would add a provider SDK, a public webhook, template messages and a
+second deploy before 14:40, while removing the options UI that makes the product useful.
+It is out of scope for this build.
 
 **Not building today:** bookings, payments, live workshop APIs, maps, chat history,
 accounts, video analysis, a live WhatsApp/Telegram integration, hidden-fault diagnosis
@@ -169,7 +163,7 @@ Spending 45 minutes building an image pipeline is the classic hackathon death.
 | "Where do prices come from?" | "Seeded survey of 6 workshops, 19 Nov, labelled in the UI." One sentence |
 | "Is this legal / medical advice?" | "We show estimates and what to ask. Inspection confirms." |
 | Judges ask about brand detection | "The model suggests a make and prefills the dropdown. The user confirms — a wrong auto-filter would hide the right shop. Classification is the reliable half." |
-| "Is this a WhatsApp bot?" / "Why not WhatsApp?" | "WhatsApp is the distribution channel; today's build is the reference web client calling the same endpoint. The Business API webhook is a second deploy we deliberately cut." |
+| "Why not WhatsApp?" | "The product is the option set — part grade, warranty, labour, lead time, effective cost, side by side. Chat flattens that; a table makes it comparable. A bot is also a second deploy with a provider approval we cut." |
 | Someone wants to add a feature at 13:55 | No |
 
 ## 7. Demo script (90 seconds)
@@ -186,8 +180,8 @@ Spending 45 minutes building an image pipeline is the classic hackathon death.
 6. Close: *"Every scan becomes a structured record — damage type, market, part grade,
    price. That's the dataset nobody in Malaysia has. The app is free; the dataset is
    the business."*
-7. *"This is the reference web client. The same endpoint drops into WhatsApp — that's
-   the distribution."*
+7. *"A web app, not a chat bot, because the comparison is the product: parts, warranty,
+   labour and effective cost side by side. Chat flattens that."*
 
 ## 8. Submission checklist
 
@@ -198,4 +192,4 @@ Spending 45 minutes building an image pipeline is the classic hackathon death.
 - [ ] Qoder evidence: planning screenshots, commit log, one diff
 - [ ] Slides: problem → who suffers → demo → normalisation insight → dataset → roadmap
 - [ ] One sentence on seeded data, said out loud
-- [ ] One sentence on WhatsApp: vision is the channel; the web app is the reference client
+- [ ] One sentence on why the web app, not chat: the ranked option set needs a table
