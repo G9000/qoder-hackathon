@@ -6,6 +6,7 @@ import quotesJson from '@/data/quotes.json';
 import workshopsJson from '@/data/workshops.json';
 import { byWorkshop, matchQuotes } from '@/lib/match';
 import { rank, type RankedQuote, type Verdict } from '@/lib/normalize';
+import { buildReportHref } from '@/lib/report';
 import {
   DAMAGE_TYPES,
   MAKES,
@@ -128,6 +129,14 @@ export default function Home() {
   const best = rows.find((row) => row.verdict === 'best_value');
   const totalForJob = workshops.filter((workshop) => workshop.damageTypes.includes(damage)).length;
   const stop = safetyStop || assessment?.safetyStop === true;
+  const reportHref = buildReportHref({
+    make,
+    model,
+    damage,
+    severity,
+    safetyStop: stop,
+    found: assessment?.damageTypes ?? [],
+  });
 
   function changeMake(next: Make) {
     setMake(next);
@@ -514,6 +523,18 @@ export default function Home() {
             </div>
           </div>
         )}
+
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-brand/25 bg-brand/5 px-4 py-3">
+          <p className="text-xs leading-snug text-ink/65">
+            Send the full report — assessment, likely cause, prices and directions — as a link in the chat.
+          </p>
+          <a
+            href={reportHref}
+            className="rounded-xl bg-brand px-4 py-2 text-xs font-bold text-white transition hover:opacity-90"
+          >
+            Open shareable report →
+          </a>
+        </div>
       </section>
 
       <footer className="mt-8 flex flex-wrap items-center justify-between gap-2 text-[11px] text-ink/40">

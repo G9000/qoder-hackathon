@@ -8,6 +8,7 @@ import workshopsJson from '@/data/workshops.json';
 import { DAMAGE_FIXES } from '@/lib/fixes';
 import { byWorkshop, matchQuotes } from '@/lib/match';
 import { rank, type RankedQuote, type Verdict } from '@/lib/normalize';
+import { buildReportHref } from '@/lib/report';
 import {
   DAMAGE_TYPES,
   MAKES,
@@ -143,6 +144,14 @@ function Report({
   const high = priced.length ? Math.max(...priced.map((row) => row.priceBand[1])) : 0;
   const confidence = assessment?.damageTypes[0];
   const notes = assessment && assessment.damageTypes.length > 0 ? assessment.notes : '';
+  const reportHref = buildReportHref({
+    make,
+    model,
+    damage,
+    severity,
+    safetyStop,
+    found: assessment?.damageTypes ?? [],
+  });
 
   return (
     <div id="report" className="space-y-4">
@@ -324,6 +333,21 @@ function Report({
         Seeded survey · 19 Nov 2026 · n = 6 workshops. Estimates to compare, not market prices. An inspection
         confirms the repair.
       </p>
+
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-3xl border border-brand/25 bg-brand/5 p-5">
+        <div>
+          <p className="text-sm font-bold">Send this report to the chat</p>
+          <p className="mt-1 text-xs leading-snug text-ink/60">
+            Shareable link: assessment, vehicle causes, quotes, phone numbers and directions.
+          </p>
+        </div>
+        <a
+          href={reportHref}
+          className="rounded-xl bg-brand px-4 py-2 text-xs font-bold text-white transition hover:opacity-90"
+        >
+          Open shareable report →
+        </a>
+      </div>
     </div>
   );
 }
