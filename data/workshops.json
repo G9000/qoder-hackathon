@@ -1,0 +1,127 @@
+[
+  {
+    "id": "ws_A",
+    "name": "Ah Seng Auto",
+    "area": "Petaling Jaya",
+    "coverage": [
+      "perodua",
+      "proton"
+    ],
+    "damageTypes": [
+      "front_bumper",
+      "headlamp",
+      "windscreen",
+      "panel_dent",
+      "side_mirror",
+      "wheel_tyre"
+    ],
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "id": "ws_B",
+    "name": "JB Motorworks",
+    "area": "Subang Jaya",
+    "coverage": [
+      "all"
+    ],
+    "damageTypes": [
+      "front_bumper",
+      "headlamp",
+      "windscreen",
+      "panel_dent",
+      "side_mirror",
+      "wheel_tyre"
+    ],
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "id": "ws_C",
+    "name": "Honda-Toyota Specialist",
+    "area": "Glenmarie",
+    "coverage": [
+      "toyota",
+      "honda"
+    ],
+    "damageTypes": [
+      "front_bumper",
+      "headlamp",
+      "windscreen",
+      "panel_dent",
+      "side_mirror",
+      "wheel_tyre"
+    ],
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "id": "ws_D",
+    "name": "Din Auto Service",
+    "area": "Puchong",
+    "coverage": [
+      "all"
+    ],
+    "damageTypes": [
+      "front_bumper",
+      "headlamp",
+      "panel_dent",
+      "side_mirror",
+      "wheel_tyre"
+    ],
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "id": "ws_E",
+    "name": "Premium Auto KL",
+    "area": "Sri Petaling",
+    "coverage": [
+      "all"
+    ],
+    "damageTypes": [
+      "front_bumper",
+      "headlamp",
+      "windscreen",
+      "panel_dent",
+      "side_mirror",
+      "wheel_tyre"
+    ],
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "id": "ws_F",
+    "name": "Kedai Pak Ali",
+    "area": "Klang",
+    "coverage": [
+      "perodua",
+      "proton"
+    ],
+    "damageTypes": [
+      "front_bumper",
+      "side_mirror",
+      "wheel_tyre"
+    ],
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  }
+]

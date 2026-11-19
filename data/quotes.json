@@ -1,0 +1,578 @@
+[
+  {
+    "workshopId": "ws_A",
+    "damageType": "front_bumper",
+    "partGrade": "oem",
+    "priceBand": [
+      750,
+      850
+    ],
+    "labourHours": 3,
+    "labourRatePerHour": 55,
+    "warrantyMonths": 12,
+    "leadTimeDays": 2,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_B",
+    "damageType": "front_bumper",
+    "partGrade": "aftermarket",
+    "priceBand": [
+      740,
+      820
+    ],
+    "labourHours": 3,
+    "labourRatePerHour": 65,
+    "warrantyMonths": 0,
+    "leadTimeDays": 1,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_C",
+    "damageType": "front_bumper",
+    "partGrade": "oem_equivalent",
+    "priceBand": [
+      780,
+      880
+    ],
+    "labourHours": 3,
+    "labourRatePerHour": 65,
+    "warrantyMonths": 6,
+    "leadTimeDays": 2,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_D",
+    "damageType": "front_bumper",
+    "partGrade": "aftermarket",
+    "priceBand": [
+      820,
+      900
+    ],
+    "labourHours": 2.5,
+    "labourRatePerHour": 50,
+    "warrantyMonths": 3,
+    "leadTimeDays": 1,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_E",
+    "damageType": "front_bumper",
+    "partGrade": "oem",
+    "priceBand": [
+      2200,
+      2400
+    ],
+    "labourHours": 4,
+    "labourRatePerHour": 120,
+    "warrantyMonths": 12,
+    "leadTimeDays": 3,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_F",
+    "damageType": "front_bumper",
+    "partGrade": "used",
+    "priceBand": [
+      790,
+      875
+    ],
+    "labourHours": 2.5,
+    "labourRatePerHour": 55,
+    "warrantyMonths": 0,
+    "leadTimeDays": 2,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_A",
+    "damageType": "headlamp",
+    "partGrade": "oem",
+    "priceBand": [
+      900,
+      1100
+    ],
+    "labourHours": 2,
+    "labourRatePerHour": 55,
+    "warrantyMonths": 12,
+    "leadTimeDays": 2,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_B",
+    "damageType": "headlamp",
+    "partGrade": "aftermarket",
+    "priceBand": [
+      700,
+      850
+    ],
+    "labourHours": 2,
+    "labourRatePerHour": 65,
+    "warrantyMonths": 0,
+    "leadTimeDays": 1,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_C",
+    "damageType": "headlamp",
+    "partGrade": "oem_equivalent",
+    "priceBand": [
+      850,
+      1000
+    ],
+    "labourHours": 2.5,
+    "labourRatePerHour": 65,
+    "warrantyMonths": 6,
+    "leadTimeDays": 2,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_D",
+    "damageType": "headlamp",
+    "partGrade": "aftermarket",
+    "priceBand": [
+      600,
+      720
+    ],
+    "labourHours": 1.5,
+    "labourRatePerHour": 50,
+    "warrantyMonths": 3,
+    "leadTimeDays": 1,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_E",
+    "damageType": "headlamp",
+    "partGrade": "oem",
+    "priceBand": [
+      2600,
+      3000
+    ],
+    "labourHours": 3,
+    "labourRatePerHour": 120,
+    "warrantyMonths": 12,
+    "leadTimeDays": 3,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_A",
+    "damageType": "windscreen",
+    "partGrade": "oem",
+    "priceBand": [
+      650,
+      790
+    ],
+    "labourHours": 1.5,
+    "labourRatePerHour": 55,
+    "warrantyMonths": 12,
+    "leadTimeDays": 2,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_B",
+    "damageType": "windscreen",
+    "partGrade": "aftermarket",
+    "priceBand": [
+      600,
+      720
+    ],
+    "labourHours": 1.5,
+    "labourRatePerHour": 65,
+    "warrantyMonths": 0,
+    "leadTimeDays": 1,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_C",
+    "damageType": "windscreen",
+    "partGrade": "oem_equivalent",
+    "priceBand": [
+      700,
+      820
+    ],
+    "labourHours": 1.5,
+    "labourRatePerHour": 65,
+    "warrantyMonths": 6,
+    "leadTimeDays": 2,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_E",
+    "damageType": "windscreen",
+    "partGrade": "oem",
+    "priceBand": [
+      1800,
+      2100
+    ],
+    "labourHours": 2,
+    "labourRatePerHour": 120,
+    "warrantyMonths": 12,
+    "leadTimeDays": 3,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_A",
+    "damageType": "panel_dent",
+    "partGrade": "oem",
+    "priceBand": [
+      350,
+      450
+    ],
+    "labourHours": 2,
+    "labourRatePerHour": 55,
+    "warrantyMonths": 12,
+    "leadTimeDays": 2,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_B",
+    "damageType": "panel_dent",
+    "partGrade": "aftermarket",
+    "priceBand": [
+      300,
+      380
+    ],
+    "labourHours": 2,
+    "labourRatePerHour": 65,
+    "warrantyMonths": 0,
+    "leadTimeDays": 1,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_C",
+    "damageType": "panel_dent",
+    "partGrade": "oem_equivalent",
+    "priceBand": [
+      330,
+      420
+    ],
+    "labourHours": 2,
+    "labourRatePerHour": 65,
+    "warrantyMonths": 6,
+    "leadTimeDays": 2,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_D",
+    "damageType": "panel_dent",
+    "partGrade": "aftermarket",
+    "priceBand": [
+      280,
+      350
+    ],
+    "labourHours": 1.5,
+    "labourRatePerHour": 50,
+    "warrantyMonths": 3,
+    "leadTimeDays": 1,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_E",
+    "damageType": "panel_dent",
+    "partGrade": "oem",
+    "priceBand": [
+      900,
+      1100
+    ],
+    "labourHours": 2,
+    "labourRatePerHour": 120,
+    "warrantyMonths": 12,
+    "leadTimeDays": 2,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_A",
+    "damageType": "side_mirror",
+    "partGrade": "oem",
+    "priceBand": [
+      220,
+      300
+    ],
+    "labourHours": 0.5,
+    "labourRatePerHour": 55,
+    "warrantyMonths": 12,
+    "leadTimeDays": 1,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_B",
+    "damageType": "side_mirror",
+    "partGrade": "aftermarket",
+    "priceBand": [
+      180,
+      240
+    ],
+    "labourHours": 0.5,
+    "labourRatePerHour": 65,
+    "warrantyMonths": 0,
+    "leadTimeDays": 1,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_C",
+    "damageType": "side_mirror",
+    "partGrade": "oem_equivalent",
+    "priceBand": [
+      200,
+      280
+    ],
+    "labourHours": 0.5,
+    "labourRatePerHour": 65,
+    "warrantyMonths": 6,
+    "leadTimeDays": 1,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_D",
+    "damageType": "side_mirror",
+    "partGrade": "aftermarket",
+    "priceBand": [
+      170,
+      220
+    ],
+    "labourHours": 0.5,
+    "labourRatePerHour": 50,
+    "warrantyMonths": 3,
+    "leadTimeDays": 1,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_E",
+    "damageType": "side_mirror",
+    "partGrade": "oem",
+    "priceBand": [
+      650,
+      800
+    ],
+    "labourHours": 0.5,
+    "labourRatePerHour": 120,
+    "warrantyMonths": 12,
+    "leadTimeDays": 2,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_F",
+    "damageType": "side_mirror",
+    "partGrade": "used",
+    "priceBand": [
+      190,
+      250
+    ],
+    "labourHours": 0.5,
+    "labourRatePerHour": 55,
+    "warrantyMonths": 0,
+    "leadTimeDays": 1,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_A",
+    "damageType": "wheel_tyre",
+    "partGrade": "oem",
+    "priceBand": [
+      280,
+      380
+    ],
+    "labourHours": 0.5,
+    "labourRatePerHour": 55,
+    "warrantyMonths": 12,
+    "leadTimeDays": 1,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_B",
+    "damageType": "wheel_tyre",
+    "partGrade": "aftermarket",
+    "priceBand": [
+      220,
+      300
+    ],
+    "labourHours": 0.5,
+    "labourRatePerHour": 65,
+    "warrantyMonths": 0,
+    "leadTimeDays": 1,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_C",
+    "damageType": "wheel_tyre",
+    "partGrade": "oem_equivalent",
+    "priceBand": [
+      250,
+      340
+    ],
+    "labourHours": 0.5,
+    "labourRatePerHour": 65,
+    "warrantyMonths": 6,
+    "leadTimeDays": 1,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_D",
+    "damageType": "wheel_tyre",
+    "partGrade": "aftermarket",
+    "priceBand": [
+      200,
+      260
+    ],
+    "labourHours": 0.5,
+    "labourRatePerHour": 50,
+    "warrantyMonths": 3,
+    "leadTimeDays": 1,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_E",
+    "damageType": "wheel_tyre",
+    "partGrade": "oem",
+    "priceBand": [
+      700,
+      900
+    ],
+    "labourHours": 1,
+    "labourRatePerHour": 120,
+    "warrantyMonths": 12,
+    "leadTimeDays": 2,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  },
+  {
+    "workshopId": "ws_F",
+    "damageType": "wheel_tyre",
+    "partGrade": "used",
+    "priceBand": [
+      210,
+      280
+    ],
+    "labourHours": 0.5,
+    "labourRatePerHour": 55,
+    "warrantyMonths": 0,
+    "leadTimeDays": 1,
+    "provenance": {
+      "source": "seeded_survey",
+      "date": "2026-11-19",
+      "n": 6
+    }
+  }
+]
