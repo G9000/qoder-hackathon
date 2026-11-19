@@ -31,6 +31,16 @@ cp .env.local.example .env.local
 Without a key the app still works: the six damage chips are the manual path, and the API
 returns a graceful empty result instead of throwing.
 
+## Demo video
+
+[Watch the recorded UI demo (37 seconds, WebM)](docs/BengkelBaik-Demo.webm)
+
+Vehicle selection → live Qwen photo assessment → safety check → repair report.
+This is a partial recording; report sharing and the safety-stop branch are not shown.
+Prices shown are seeded estimates, not market prices.
+
+[Additional walkthrough video (MOV)](demo/bengkel-baik-demo.mov)
+
 ## Demo path
 
 1. Perodua + Myvi, tap **Front bumper** → ranked table appears.
