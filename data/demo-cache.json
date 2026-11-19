@@ -1,0 +1,44 @@
+{
+  "front_bumper": {
+    "damageTypes": [{ "type": "front_bumper", "confidence": 0.91 }],
+    "severity": "moderate",
+    "safetyStop": false,
+    "notes": "Scuffing and a shallow dent across the front bumper cover.",
+    "latencyMs": 0
+  },
+  "headlamp": {
+    "damageTypes": [{ "type": "headlamp", "confidence": 0.87 }],
+    "severity": "moderate",
+    "safetyStop": false,
+    "notes": "Cracked headlamp lens with moisture inside the housing.",
+    "latencyMs": 0
+  },
+  "windscreen": {
+    "damageTypes": [{ "type": "windscreen", "confidence": 0.93 }],
+    "severity": "moderate",
+    "safetyStop": false,
+    "notes": "Stone chip spreading into a hairline crack on the driver side.",
+    "latencyMs": 0
+  },
+  "panel_dent": {
+    "damageTypes": [{ "type": "panel_dent", "confidence": 0.84 }],
+    "severity": "minor",
+    "safetyStop": false,
+    "notes": "Door panel dent, paint intact.",
+    "latencyMs": 0
+  },
+  "side_mirror": {
+    "damageTypes": [{ "type": "side_mirror", "confidence": 0.9 }],
+    "severity": "minor",
+    "safetyStop": false,
+    "notes": "Housing cracked, mirror glass intact.",
+    "latencyMs": 0
+  },
+  "wheel_tyre": {
+    "damageTypes": [{ "type": "wheel_tyre", "confidence": 0.88 }],
+    "severity": "moderate",
+    "safetyStop": false,
+    "notes": "Sidewall bulge on the front left tyre.",
+    "latencyMs": 0
+  }
+}
