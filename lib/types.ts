@@ -25,6 +25,9 @@ export interface Workshop {
   id: string;
   name: string;
   area: string;
+  distanceKm: number;
+  phone: string;
+  insuranceClaimable: boolean;
   coverage: MakeScope[];
   damageTypes: DamageType[];
   provenance: Provenance;
@@ -48,4 +51,5 @@ export interface Assessment {
   safetyStop: boolean;
   notes: string;
   latencyMs: number;
+  suspectedMake?: Make;
 }

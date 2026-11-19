@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { DAMAGE_TYPES } from '@/lib/types';
+import { DAMAGE_TYPES, MAKES } from '@/lib/types';
 import { SYSTEM_PROMPT } from '@/prompts/assess';
 
 export const runtime = 'nodejs';
@@ -23,6 +23,7 @@ const resultSchema = z.object({
   severity: z.enum(['minor', 'moderate', 'severe']),
   safetyStop: z.boolean(),
   notes: z.string().max(300),
+  suspectedMake: z.enum(MAKES).optional(),
 });
 
 type Result = z.infer<typeof resultSchema>;

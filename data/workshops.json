@@ -3,6 +3,9 @@
     "id": "ws_A",
     "name": "Ah Seng Auto",
     "area": "Petaling Jaya",
+    "distanceKm": 3.2,
+    "phone": "03-0000 0101",
+    "insuranceClaimable": true,
     "coverage": [
       "perodua",
       "proton"
@@ -25,6 +28,9 @@
     "id": "ws_B",
     "name": "JB Motorworks",
     "area": "Subang Jaya",
+    "distanceKm": 6.8,
+    "phone": "03-0000 0102",
+    "insuranceClaimable": false,
     "coverage": [
       "all"
     ],
@@ -46,6 +52,9 @@
     "id": "ws_C",
     "name": "Honda-Toyota Specialist",
     "area": "Glenmarie",
+    "distanceKm": 9.4,
+    "phone": "03-0000 0103",
+    "insuranceClaimable": true,
     "coverage": [
       "toyota",
       "honda"
@@ -68,6 +77,9 @@
     "id": "ws_D",
     "name": "Din Auto Service",
     "area": "Puchong",
+    "distanceKm": 12.6,
+    "phone": "03-0000 0104",
+    "insuranceClaimable": false,
     "coverage": [
       "all"
     ],
@@ -88,6 +100,9 @@
     "id": "ws_E",
     "name": "Premium Auto KL",
     "area": "Sri Petaling",
+    "distanceKm": 7.1,
+    "phone": "03-0000 0105",
+    "insuranceClaimable": false,
     "coverage": [
       "all"
     ],
@@ -109,6 +124,9 @@
     "id": "ws_F",
     "name": "Kedai Pak Ali",
     "area": "Klang",
+    "distanceKm": 18.9,
+    "phone": "03-0000 0106",
+    "insuranceClaimable": false,
     "coverage": [
       "perodua",
       "proton"

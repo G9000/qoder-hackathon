@@ -6,12 +6,12 @@ import type { Quote, Workshop } from './types';
 const provenance = { source: 'seeded_survey' as const, date: '2026-11-19', n: 6 };
 
 const workshops: Workshop[] = [
-  { id: 'ws_A', name: 'A', area: 'PJ', coverage: ['perodua', 'proton'], damageTypes: ['front_bumper'], provenance },
-  { id: 'ws_B', name: 'B', area: 'Subang', coverage: ['all'], damageTypes: ['front_bumper'], provenance },
-  { id: 'ws_C', name: 'C', area: 'Glenmarie', coverage: ['honda', 'toyota'], damageTypes: ['front_bumper'], provenance },
-  { id: 'ws_D', name: 'D', area: 'Puchong', coverage: ['all'], damageTypes: ['front_bumper'], provenance },
-  { id: 'ws_E', name: 'E', area: 'KL', coverage: ['all'], damageTypes: ['front_bumper'], provenance },
-  { id: 'ws_F', name: 'F', area: 'Klang', coverage: ['perodua', 'proton'], damageTypes: ['front_bumper'], provenance },
+  { id: 'ws_A', name: 'A', area: 'PJ', distanceKm: 3, phone: '03-0000 0101', insuranceClaimable: true, coverage: ['perodua', 'proton'], damageTypes: ['front_bumper'], provenance },
+  { id: 'ws_B', name: 'B', area: 'Subang', distanceKm: 7, phone: '03-0000 0102', insuranceClaimable: false, coverage: ['all'], damageTypes: ['front_bumper'], provenance },
+  { id: 'ws_C', name: 'C', area: 'Glenmarie', distanceKm: 9, phone: '03-0000 0103', insuranceClaimable: true, coverage: ['honda', 'toyota'], damageTypes: ['front_bumper'], provenance },
+  { id: 'ws_D', name: 'D', area: 'Puchong', distanceKm: 12, phone: '03-0000 0104', insuranceClaimable: false, coverage: ['all'], damageTypes: ['front_bumper'], provenance },
+  { id: 'ws_E', name: 'E', area: 'KL', distanceKm: 7, phone: '03-0000 0105', insuranceClaimable: false, coverage: ['all'], damageTypes: ['front_bumper'], provenance },
+  { id: 'ws_F', name: 'F', area: 'Klang', distanceKm: 19, phone: '03-0000 0106', insuranceClaimable: false, coverage: ['perodua', 'proton'], damageTypes: ['front_bumper'], provenance },
 ];
 
 function quote(

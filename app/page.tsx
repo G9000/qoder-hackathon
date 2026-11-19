@@ -162,6 +162,7 @@ export default function Home() {
   }
 
   const confidence = assessment?.damageTypes[0];
+  const hintMake = assessment?.suspectedMake;
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 pb-16 pt-6 sm:px-6">
@@ -228,6 +229,21 @@ export default function Home() {
               </select>
             </label>
           </div>
+          {hintMake && hintMake !== make && (
+            <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
+              <span className="rounded-full bg-brand/10 px-2 py-0.5 font-bold text-brand">
+                Detected: {hintMake[0].toUpperCase() + hintMake.slice(1)}
+              </span>
+              <button
+                type="button"
+                onClick={() => changeMake(hintMake)}
+                className="font-bold underline decoration-brand decoration-2 underline-offset-2"
+              >
+                Use this
+              </button>
+              <span className="text-ink/45">you confirm the car, not the model</span>
+            </div>
+          )}
 
           <h2 className="mt-5 text-[11px] font-bold uppercase tracking-widest text-ink/45">2 · Photo of the damage</h2>
           <label className="mt-3 block cursor-pointer rounded-2xl border-2 border-dashed border-ink/15 bg-paper/60 p-4 transition hover:border-brand/60">
@@ -423,9 +439,14 @@ export default function Home() {
                         <div className="flex flex-wrap items-center gap-2">
                           <span className="font-bold">{shop?.name ?? row.workshopId}</span>
                           <VerdictBadge verdict={row.verdict} />
+                          {shop?.insuranceClaimable && (
+                            <span className="inline-flex items-center rounded-full border border-teal-300 bg-teal-50 px-2 py-0.5 text-[10px] font-semibold text-teal-800">
+                              ✓ insurance panel
+                            </span>
+                          )}
                         </div>
                         <p className="mt-0.5 text-xs leading-snug text-ink/55">
-                          {shop?.area} · {whyFor(row, best, shops)}
+                          {shop?.area} · {shop?.distanceKm} km · {whyFor(row, best, shops)}
                         </p>
                       </div>
 
