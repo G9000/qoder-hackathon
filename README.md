@@ -11,6 +11,13 @@ Built for Alibaba Cloud x Developer Kaki QodeFest, 19 Nov 2026 — Digital Inclu
 lead time, effective cost and a safety stop, side by side. A chat thread flattens that; a
 filterable table makes it comparable at a glance.
 
+## Submission deck
+
+The 10-slide submission deck is at
+[`docs/Bengkel-Baik-QodeFest-2026.pptx`](docs/Bengkel-Baik-QodeFest-2026.pptx).
+Every figure in it comes from this repo's seeded data and `docs/evidence/`; demo images
+are labelled as generated illustrations.
+
 ## Run it
 
 ```bash
